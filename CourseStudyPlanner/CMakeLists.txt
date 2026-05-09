@@ -55,6 +55,12 @@ add_executable(CourseStudyPlanner ${PROJECT_SOURCES})
 
 target_link_libraries(CourseStudyPlanner PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 
+if (MSVC)
+    target_compile_options(CourseStudyPlanner PRIVATE /utf-8)
+else()
+    target_compile_options(CourseStudyPlanner PRIVATE -finput-charset=UTF-8 -fexec-charset=UTF-8)
+endif()
+
 if (WIN32)
     set_target_properties(CourseStudyPlanner PROPERTIES WIN32_EXECUTABLE TRUE)
 endif()
