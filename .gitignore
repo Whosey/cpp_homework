@@ -1,0 +1,42 @@
+# Build output
+build/
+build-*/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+compile_commands.json
+
+# Compiled binaries and intermediates
+*.o
+*.obj
+*.a
+*.lib
+*.dll
+*.dylib
+*.so
+*.exe
+*.pdb
+
+# Qt and IDE user files
+*.user
+*.user.*
+*.autosave
+*.pro.user
+*.pro.user.*
+.vs/
+.vscode/
+.idea/
+
+# Packages and generated archives
+*.zip
+*.7z
+*.rar
+*.tar
+*.tar.gz
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
