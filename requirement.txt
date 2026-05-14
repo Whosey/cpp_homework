@@ -1,0 +1,30 @@
+# Verified build environment for CourseStudyPlanner on Windows
+
+OS=Windows
+Compiler=MSYS2 MinGW-w64 g++ 15.2.0
+Qt=Qt 6.6.3 (mingw_64, Widgets)
+CMake=4.3.2
+Python=3.10.9
+PythonPackage=aqtinstall 3.3.0
+BuildTool=Ninja 1.11.1.3
+
+# Qt install path used locally
+QT_ROOT=C:\Qt\6.6.3\mingw_64
+
+# Compiler path used locally
+GCC_PATH=D:\msys2\mingw64\bin\g++.exe
+
+# Verified CMake configure command
+cmake -S . -B build -G Ninja ^
+  -DCMAKE_MAKE_PROGRAM=D:/python310/Scripts/ninja.exe ^
+  -DCMAKE_PREFIX_PATH=C:/Qt/6.6.3/mingw_64 ^
+  -DCMAKE_CXX_COMPILER=D:/msys2/mingw64/bin/g++.exe
+
+# Verified build command
+cmake --build build --parallel
+
+# If Qt deployment causes libstdc++ mismatch on Windows,
+# replace the deployed runtime DLLs with the matching MSYS2 versions:
+# libstdc++-6.dll
+# libgcc_s_seh-1.dll
+# libwinpthread-1.dll
