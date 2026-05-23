@@ -41,6 +41,8 @@ set(PROJECT_SOURCES
     pages/LoginPage.cpp
     pages/MainWindow.h
     pages/MainWindow.cpp
+    pages/UiTheme.h
+    pages/UiTheme.cpp
     pages/CoursePage.h
     pages/CoursePage.cpp
     pages/TaskPage.h

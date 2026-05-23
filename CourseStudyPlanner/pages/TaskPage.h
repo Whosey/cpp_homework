@@ -3,6 +3,7 @@
 
 #include "../managers/SystemManager.h"
 
+#include <QLabel>
 #include <QComboBox>
 #include <QTableWidget>
 #include <QWidget>
@@ -26,6 +27,9 @@ private slots:
 
 private:
     SystemManager* manager;
+    QLabel* totalTasksLabel;
+    QLabel* openTasksLabel;
+    QLabel* highPriorityLabel;
     QTableWidget* table;
     QComboBox* courseFilterCombo;
     QComboBox* typeFilterCombo;

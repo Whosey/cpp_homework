@@ -3,6 +3,7 @@
 
 #include "../managers/SystemManager.h"
 
+#include <QLabel>
 #include <QTableWidget>
 #include <QWidget>
 
@@ -24,6 +25,7 @@ private slots:
 
 private:
     SystemManager* manager;
+    QLabel* summaryLabel;
     QTableWidget* table;
 
     QString selectedCourseId() const;

@@ -3,6 +3,7 @@
 
 #include "../managers/SystemManager.h"
 
+#include <QLabel>
 #include <QListWidget>
 #include <QTableWidget>
 #include <QWidget>
@@ -17,6 +18,9 @@ public:
 
 private:
     SystemManager* manager;
+    QLabel* todayCountLabel;
+    QLabel* weekCountLabel;
+    QLabel* reminderCountLabel;
     QTableWidget* todayTable;
     QTableWidget* weekTable;
     QListWidget* reminderList;
