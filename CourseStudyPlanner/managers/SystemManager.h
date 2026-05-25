@@ -15,7 +15,7 @@ class SystemManager
 public:
     SystemManager();
     ~SystemManager();
-
+    bool addLearningLogToTask(const QString& taskId, const QString& log, QString& errorMessage);
     bool registerUser(const QString& username, const QString& password, QString& errorMessage);
     bool login(const QString& username, const QString& password, QString& errorMessage);
     void logout();
@@ -61,6 +61,7 @@ public:
 
     void loadAll();
     void saveAll();
+
 
 private:
     QList<User> users;

@@ -386,3 +386,17 @@ QString SystemManager::getCourseNameById(const QString& courseId) const
     }
     return "";
 }
+bool SystemManager::addLearningLogToTask(const QString& taskId, const QString& log, QString& errorMessage)
+{
+    for (BaseTask* task : tasks) {
+        if (task && task->getTaskId() == taskId && task->getOwnerUserId() == getCurrentUserId()) {
+            // 自动加上今天的日期，例如 "2026-05-24: 今天搞懂了曲线积分"
+            QString datedLog = QDate::currentDate().toString("yyyy-MM-dd") + ": " + log.trimmed();
+            task->addLearningLog(datedLog);
+            saveAll();
+            return true;
+        }
+    }
+    errorMessage = "未找到任务。";
+    return false;
+}

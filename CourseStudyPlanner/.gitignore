@@ -1,4 +1,54 @@
+# ========================
+# 1. CMake & 编译产物忽略
+# ========================
 build/
 build-*/
+out/
+bin/
+lib/
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+cmake_install.cmake
+Makefile
+
+# ========================
+# 2. 忽略可执行文件和库文件
+# ========================
+*.exe
+*.obj
+*.o
+*.a
+*.dll
+*.lib
+*.so
+*.dylib
+
+# ========================
+# 3. Qt 特有中间文件和配置
+# ========================
 *.user
+*.user.*
+moc_*.cpp
+ui_*.h
+qrc_*.cpp
 *.autosave
+
+# ========================
+# 4. 编辑器与系统本地配置
+# ========================
+.vscode/
+.vs/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+.DS_Store
+Thumbs.db
+
+# ========================
+# 5. 咱们交流生成的打包文件！
+# ========================
+all_code.txt

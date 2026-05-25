@@ -129,18 +129,29 @@ BaseTask* FileManager::createTaskFromJson(const QJsonObject& obj)
     const bool isCompleted = obj["isCompleted"].toBool(false);
     const QString relatedCourseId = obj["relatedCourseId"].toString();
 
+    BaseTask* task = nullptr;
     if (type == "Homework") {
-        return new HomeworkTask(taskId, ownerUserId, title, description, deadline, priority, isCompleted, relatedCourseId);
-    }
-    if (type == "SelfStudy") {
-        return new SelfStudyTask(taskId, ownerUserId, title, description, deadline, priority, isCompleted, relatedCourseId);
-    }
-    if (type == "Exam") {
-        return new ExamTask(taskId, ownerUserId, title, description, deadline, priority, isCompleted, relatedCourseId);
+        task = new HomeworkTask(taskId, ownerUserId, title, description, deadline, priority, isCompleted, relatedCourseId);
+    } else if (type == "SelfStudy") {
+        task = new SelfStudyTask(taskId, ownerUserId, title, description, deadline, priority, isCompleted, relatedCourseId);
+    } else if (type == "Exam") {
+        task = new ExamTask(taskId, ownerUserId, title, description, deadline, priority, isCompleted, relatedCourseId);
     }
 
-    qWarning() << "未知任务类型，已忽略：" << type;
-    return nullptr;
+    // [新增] 如果任务创建成功，且 JSON 里有学习记录，就加载它
+    if (task && obj.contains("learningLogs")) {
+        QStringList logs;
+        QJsonArray logsArray = obj["learningLogs"].toArray();
+        for (const QJsonValue& val : logsArray) {
+            logs.append(val.toString());
+        }
+        task->setLearningLogs(logs);
+    }
+
+    if (!task) {
+        qWarning() << "未知任务类型，已忽略：" << type;
+    }
+    return task;
 }
 
 QList<BaseTask*> FileManager::loadTasks()

@@ -1,6 +1,6 @@
 #ifndef TASKPAGE_H
 #define TASKPAGE_H
-
+#include <QListWidget>
 #include "../managers/SystemManager.h"
 
 #include <QLabel>
@@ -24,7 +24,7 @@ private slots:
     void editTask();
     void deleteTask();
     void toggleTaskCompleted();
-
+    void viewLearningProcess();
 private:
     SystemManager* manager;
     QLabel* totalTasksLabel;

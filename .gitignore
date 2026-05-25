@@ -1,45 +1,54 @@
-# Build output
+# ========================
+# 1. CMake & 编译产物忽略
+# ========================
 build/
 build-*/
-cmake-build-*/
-CMakeFiles/
+out/
+bin/
+lib/
 CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
 cmake_install.cmake
 Makefile
-compile_commands.json
 
-# Compiled binaries and intermediates
-*.o
-*.obj
-*.a
-*.lib
-*.dll
-*.dylib
-*.so
+# ========================
+# 2. 忽略可执行文件和库文件
+# ========================
 *.exe
-*.pdb
+*.obj
+*.o
+*.a
+*.dll
+*.lib
+*.so
+*.dylib
 
-# Qt and IDE user files
+# ========================
+# 3. Qt 特有中间文件和配置
+# ========================
 *.user
 *.user.*
+moc_*.cpp
+ui_*.h
+qrc_*.cpp
 *.autosave
-*.pro.user
-*.pro.user.*
-.vs/
+
+# ========================
+# 4. 编辑器与系统本地配置
+# ========================
 .vscode/
+.vs/
 .idea/
-
-# Packages and generated archives
-*.zip
-*.7z
-*.rar
-*.tar
-*.tar.gz
-
-# OS files
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
 .DS_Store
 Thumbs.db
-desktop.ini
 
-# Local assistant notes
-CLAUDE.md
+# ========================
+# 5. 咱们交流生成的打包文件！
+# ========================
+all_code.txt

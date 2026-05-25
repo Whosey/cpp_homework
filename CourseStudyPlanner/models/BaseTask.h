@@ -43,7 +43,9 @@ public:
     virtual QString getType() const = 0;
     virtual QString getDisplayText() const;
     virtual QJsonObject toJson() const;
-
+    QStringList getLearningLogs() const;
+    void setLearningLogs(const QStringList& logs);
+    void addLearningLog(const QString& log);
 protected:
     QString taskId;
     QString ownerUserId;
@@ -53,6 +55,7 @@ protected:
     int priority;
     bool isCompleted;
     QString relatedCourseId;
+    QStringList learningLogs;
 };
 
 #endif

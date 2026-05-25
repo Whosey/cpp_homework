@@ -1,5 +1,5 @@
 #include "BaseTask.h"
-
+#include<QJsonArray>
 BaseTask::BaseTask()
     : priority(2), isCompleted(false)
 {
@@ -73,5 +73,13 @@ QJsonObject BaseTask::toJson() const
     obj["priority"] = priority;
     obj["isCompleted"] = isCompleted;
     obj["relatedCourseId"] = relatedCourseId;
+    QJsonArray logsArray;
+    for (const QString& log : learningLogs) {
+        logsArray.append(log);
+    }
+    obj["learningLogs"] = logsArray;
     return obj;
 }
+QStringList BaseTask::getLearningLogs() const { return learningLogs; }
+void BaseTask::setLearningLogs(const QStringList& logs) { this->learningLogs = logs; }
+void BaseTask::addLearningLog(const QString& log) { learningLogs.append(log); }

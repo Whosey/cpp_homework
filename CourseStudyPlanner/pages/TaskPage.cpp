@@ -144,14 +144,23 @@ TaskPage::TaskPage(SystemManager* manager, QWidget* parent)
     metricsLayout->addWidget(highCard);
     metricsLayout->addStretch();
 
+    // 1. 先把查看学习过程的绿色按钮创建出来
+    QPushButton* processButton = new QPushButton("查看学习过程");
+    UiTheme::setButtonVariant(processButton, "success");
+    processButton->setMinimumWidth(128);
+    processButton->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+
     QHBoxLayout* actionLayout = new QHBoxLayout;
     actionLayout->setSpacing(12);
+
+    // 2. 把所有按钮统统装进 actionLayout 盒子里
+    actionLayout->addWidget(processButton);
     actionLayout->addWidget(editButton);
     actionLayout->addWidget(toggleButton);
     actionLayout->addWidget(deleteButton);
     actionLayout->addWidget(addButton);
-    actionLayout->addStretch();
 
+    actionLayout->addStretch();
     introLayout->addWidget(eyebrow);
     introLayout->addWidget(titleLabel);
     introLayout->addWidget(subtitleLabel);
@@ -273,6 +282,7 @@ TaskPage::TaskPage(SystemManager* manager, QWidget* parent)
     connect(editButton, &QPushButton::clicked, this, &TaskPage::editTask);
     connect(deleteButton, &QPushButton::clicked, this, &TaskPage::deleteTask);
     connect(toggleButton, &QPushButton::clicked, this, &TaskPage::toggleTaskCompleted);
+    connect(processButton, &QPushButton::clicked, this, &TaskPage::viewLearningProcess);
     connect(courseFilterCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &TaskPage::refresh);
     connect(typeFilterCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &TaskPage::refresh);
     connect(stateFilterCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &TaskPage::refresh);
@@ -593,4 +603,68 @@ void TaskPage::toggleTaskCompleted()
     }
     refresh();
     emit dataChanged();
+}
+void TaskPage::viewLearningProcess()
+{
+    const QString taskId = selectedTaskId();
+    BaseTask* task = findTaskById(taskId);
+    if (!task) {
+        QMessageBox::information(this, "提示", "请先在列表中选中一个任务，再查看学习过程。");
+        return;
+    }
+
+    QDialog dialog(this);
+    dialog.setWindowTitle("学习过程记录");
+    dialog.resize(560, 450);
+
+    QVBoxLayout* layout = new QVBoxLayout(&dialog);
+    layout->setContentsMargins(24, 24, 24, 24);
+    layout->setSpacing(16);
+
+    QLabel* titleLabel = new QLabel("【" + task->getTitle() + "】的专属学习轨迹");
+    titleLabel->setProperty("role", "sectionTitle");
+
+    // 历史记录列表
+    QListWidget* logList = new QListWidget;
+    for (const QString& log : task->getLearningLogs()) {
+        logList->addItem(log);
+    }
+
+    // 底部输入区
+    QHBoxLayout* inputLayout = new QHBoxLayout;
+    QLineEdit* logInput = new QLineEdit;
+    logInput->setPlaceholderText("记录一下今天学了什么...");
+    QPushButton* addLogBtn = new QPushButton("添加记录");
+    UiTheme::setButtonVariant(addLogBtn, "primary");
+    inputLayout->addWidget(logInput, 1);
+    inputLayout->addWidget(addLogBtn);
+
+    QPushButton* closeBtn = new QPushButton("关闭");
+
+    layout->addWidget(titleLabel);
+    layout->addWidget(logList, 1);
+    layout->addLayout(inputLayout);
+    layout->addWidget(closeBtn, 0, Qt::AlignRight);
+
+    // 绑定添加记录的逻辑
+    connect(addLogBtn, &QPushButton::clicked, [&]() {
+        QString text = logInput->text();
+        if (text.trimmed().isEmpty()) return;
+
+        QString errorMessage;
+        if (manager->addLearningLogToTask(taskId, text, errorMessage)) {
+            logList->clear();
+            for (const QString& log : task->getLearningLogs()) {
+                logList->addItem(log); // 刷新列表
+            }
+            logInput->clear();
+            emit dataChanged(); // 触发主界面刷新数据
+        } else {
+            QMessageBox::warning(&dialog, "添加失败", errorMessage);
+        }
+    });
+
+    connect(closeBtn, &QPushButton::clicked, &dialog, &QDialog::accept);
+
+    dialog.exec();
 }

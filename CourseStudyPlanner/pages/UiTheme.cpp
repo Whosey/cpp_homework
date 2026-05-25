@@ -182,6 +182,15 @@ void applyApplicationStyle(QApplication& app)
         QPushButton[variant="danger"]:hover {
             background: rgba(239, 68, 68, 0.18);
         }
+        QPushButton[variant="success"] {
+            background: #10B981;
+            color: #FFFFFF;
+            border-color: #10B981;
+        }
+        QPushButton[variant="success"]:hover {
+            background: #059669;
+            border-color: #059669;
+        }
         QPushButton[variant="ghost"] {
             background: transparent;
             border-color: transparent;
@@ -265,13 +274,25 @@ void applyApplicationStyle(QApplication& app)
         }
         QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical,
         QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical,
-        QScrollBar:horizontal, QScrollBar::handle:horizontal,
         QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal,
         QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
             background: transparent;
             border: 0;
             height: 0;
             width: 0;
+        }
+
+        QScrollBar:horizontal {
+            background: transparent;
+            height: 12px;
+            margin: 0 6px;
+        }
+
+
+        QScrollBar::handle:horizontal {
+            background: #334155;
+            border-radius: 6px;
+            min-width: 28px;
         }
         QGroupBox {
             font-weight: 700;
